@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Week Calisthenics Quest</title>
+<style>
+:root{--bg:#0c1110;--panel:#151d1a;--panel2:#1c2722;--line:#2b3932;--text:#f2f5ef;--muted:#a6b3aa;--lime:#c7f36b;--lime2:#9ecb45;--orange:#ffb36b;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#1b2b20 0,transparent 42%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45}
+button,input,textarea{font:inherit}button{cursor:pointer}
+.wrap{max-width:1100px;margin:auto;padding:24px 18px 50px}
+header{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:26px}.brand{display:flex;gap:11px;align-items:center}.logo{height:42px;width:42px;border-radius:14px;background:var(--lime);color:#15200e;display:grid;place-items:center;font-weight:950;font-size:22px}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--lime);font-weight:800}.brand h1{font-size:17px;margin:1px 0}.reset{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:9px 12px;font-size:12px}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px}.hero-main,.hero-side,.card{background:linear-gradient(145deg,#19231e,#121916);border:1px solid var(--line);border-radius:22px;padding:22px}.hero h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.045em;line-height:1.05;margin:9px 0 12px;max-width:590px}.hero h2 span{color:var(--lime)}.hero p{color:var(--muted);max-width:560px;margin:0 0 18px}.pill{display:inline-flex;border:1px solid #465a3c;color:var(--lime);background:#25331d;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em}.hero-side{display:flex;flex-direction:column;justify-content:space-between;gap:16px;background:linear-gradient(145deg,#28351e,#182019)}.stat-label{color:var(--muted);font-size:12px}.big-stat{font-size:40px;font-weight:850;letter-spacing:-.05em}.progress{height:9px;background:#334037;border-radius:99px;overflow:hidden;margin:10px 0}.progress>div{height:100%;width:0;background:var(--lime);border-radius:99px;transition:width .25s}.small-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px}.section-head h3{margin:0;font-size:20px;letter-spacing:-.02em}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.week-control{display:flex;align-items:center;gap:8px}.week-control button{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;width:35px;height:35px}.week-control select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px}
+.week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}.day{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px 5px;text-align:center;color:var(--muted);min-height:77px}.day .dayname{font-size:11px}.day .daytype{font-size:10px;margin-top:4px}.day.active{border-color:var(--lime);background:#25331d;color:var(--text)}.day.done{background:#24301e;border-color:#627e37}.day.done .daytype{color:var(--lime)}.day.rest{opacity:.75}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(270px,.8fr);gap:16px;align-items:start}.card{padding:20px}.card h3{margin:0;font-size:18px}.sub{color:var(--muted);font-size:12px;margin-top:4px}.workout-title{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:17px}.tag{white-space:nowrap;border-radius:999px;padding:6px 9px;background:#26351d;color:var(--lime);font-size:11px;font-weight:800}
+.exercise{display:grid;grid-template-columns:28px 1fr auto;gap:11px;align-items:start;border-top:1px solid var(--line);padding:15px 0}.exercise input[type=checkbox]{appearance:none;width:22px;height:22px;border:1.5px solid #637367;border-radius:7px;background:#0f1512;margin:1px 0 0;display:grid;place-items:center}.exercise input:checked{background:var(--lime);border-color:var(--lime)}.exercise input:checked:after{content:"✓";color:#15200e;font-size:15px;font-weight:900}.ex-name{font-weight:750;font-size:14px}.ex-detail{font-size:12px;color:var(--muted);margin-top:4px}.ex-note{font-size:11px;color:#8e9d92;margin-top:5px}.dose{text-align:right;min-width:65px}.dose strong{display:block;color:var(--lime);font-size:14px}.dose span{font-size:10px;color:var(--muted)}.exercise.checked .ex-name{text-decoration:line-through;color:#a0b09f}.workout-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:13px;border-top:1px solid var(--line)}.primary{background:var(--lime);color:#17210f;border:0;border-radius:12px;padding:11px 15px;font-weight:850}.secondary{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.workout-footer small{color:var(--muted);font-size:11px}
+.side-stack{display:grid;gap:16px}.quote{font-size:19px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:13px 0}.quote span{color:var(--lime)}.quote-foot{font-size:11px;color:var(--muted)}.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.mini{padding:13px;background:var(--panel2);border-radius:13px}.mini strong{display:block;font-size:24px}.mini span{font-size:11px;color:var(--muted)}
+.week-plan{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.phase{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.phase .num{color:var(--lime);font-size:11px;font-weight:850;letter-spacing:.1em}.phase h4{margin:8px 0 6px;font-size:15px}.phase p{font-size:12px;color:var(--muted);margin:0}.phase.current{border-color:var(--lime);background:#202b1b}
+.habit-list{display:grid;gap:10px;margin-top:14px}.habit{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13px}.habit input{accent-color:var(--lime);width:17px;height:17px}.notes{width:100%;margin-top:14px;min-height:80px;resize:vertical;border-radius:12px;border:1px solid var(--line);background:#0e1411;color:var(--text);padding:12px;font-size:13px}.weight-row{display:flex;gap:8px;margin-top:10px}.weight-row input{width:100%;min-width:0;background:#0e1411;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px}.weight-row button{border:0;background:var(--lime);border-radius:10px;padding:0 13px;font-weight:800;color:#18220f}.footer{text-align:center;color:#7f8d82;font-size:11px;margin-top:28px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--lime);color:#17210f;padding:10px 16px;border-radius:99px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+.backup-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.backup-actions button{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px}.backup-hint{color:var(--muted);font-size:11px;margin:0 0 16px}.storage-alert{display:none;border:1px solid var(--red);color:#ffd0d0;background:#341b1b;border-radius:12px;padding:12px;margin:0 0 14px;font-size:13px}.storage-alert.show{display:block}.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:18px;z-index:5}.modal-backdrop.show{display:grid}.modal{width:min(560px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 20px 80px #0009}.modal h2{font-size:20px;margin:0 0 8px}.modal p,.modal li{color:var(--muted);font-size:13px}.modal-summary{background:var(--panel2);border-radius:12px;padding:12px;margin:14px 0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.modal select{background:#0e1411;color:var(--text);border:1px solid var(--line);padding:9px;border-radius:9px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.hero-side{min-height:180px}.week-plan{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.week-strip{gap:5px}.day{padding:10px 2px;min-height:70px}.day .dayname{font-size:10px}.day .daytype{font-size:9px}.hero-main,.hero-side,.card{padding:17px}.big-stat{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">↗</div><div><div class="eyebrow">Your personal training log</div><h1>CALISTHENICS QUEST</h1></div></div>
+  <div class="backup-actions"><button id="exportBackup">Export backup</button><button id="importBackup">Import backup</button><button class="reset" id="resetBtn">Reset tracker</button><input id="backupFile" type="file" accept=".json,application/json" hidden></div>
+</header>
+<section class="hero">
+  <div class="hero-main">
+    <span class="pill">12 WEEKS · ZERO EQUIPMENT</span>
+    <h2>Build strength.<br><span>Earn your progress.</span></h2>
+    <p>Small sessions. Clean reps. Show up again. This plan is built for your starting point—no equipment and no need to be fit before you begin.</p>
+    <div class="small-row"><span id="phaseLabel">PHASE 1 · ADAPT</span><span id="overallPct">0% complete</span></div>
+    <div class="progress"><div id="overallBar"></div></div>
+    <div class="small-row"><span>12-week journey</span><span id="daysDone">0 training days completed</span></div>
+  </div>
+  <div class="hero-side">
+    <div><div class="stat-label">CURRENT WEEK</div><div class="big-stat"><span id="heroWeek">01</span><span style="font-size:18px;color:var(--muted)"> / 12</span></div><div class="sub" id="weekMessage">Start easy. Build the habit.</div></div>
+    <div><div class="stat-label">THIS WEEK'S TRAINING</div><div class="progress"><div id="weekBar"></div></div><div class="small-row"><span id="weekCount">0 of 3 sessions</span><span id="streak">Keep going →</span></div></div>
+  </div>
+</section>
+
+<div class="section-head"><div><h3>Your training week</h3><p>Choose a day to see its workout and check off each exercise as you finish. Exercises and targets progress by phase; Friday alternates A/B.</p></div>
+<div class="week-control"><button id="prevWeek" aria-label="Previous week">‹</button><select id="weekSelect" aria-label="Choose training week"></select><button id="nextWeek" aria-label="Next week">›</button></div></div>
+<div class="week-strip" id="weekStrip"></div>
+
+<div class="grid">
+  <section class="card">
+    <div class="workout-title"><div><h3 id="workoutTitle">Monday · Workout A</h3><div class="sub" id="workoutSubtitle">Full body · 15–20 min · Rest 60–120 sec between sets</div></div><span class="tag" id="workoutTag">TRAINING</span></div>
+    <div id="exerciseList"></div>
+    <div class="workout-footer"><small id="sessionStatus">Every clean rep counts.</small><button class="primary" id="completeSession">Complete session ✓</button></div>
+  </section>
+  <aside class="side-stack">
+    <section class="card">
+      <div class="eyebrow">A reminder for today</div><div class="quote" id="quote">You don't need motivation every day. You need a <span>small promise</span> you can keep.</div><div class="quote-foot" id="quoteFoot">Progress over perfection.</div>
+      <div class="mini-stats"><div class="mini"><strong id="totalSessions">0</strong><span>sessions completed</span></div><div class="mini"><strong id="totalExercises">0</strong><span>exercise check-offs</span></div></div>
+    </section>
+    <section class="card">
+      <h3>Daily basics</h3><div class="sub">No diet tracking—just recovery habits that support training.</div>
+      <div class="habit-list" id="habitList">
+        <label class="habit"><input type="checkbox" data-habit="walk"> Took an easy walk / moved regularly</label>
+        <label class="habit"><input type="checkbox" data-habit="sleep"> Protected my sleep</label>
+        <label class="habit"><input type="checkbox" data-habit="recovery"> Gave my body time to recover</label>
+      </div>
+      <textarea id="notes" class="notes" placeholder="Quick note: energy, soreness, a win, or what to improve next time…"></textarea>
+    </section>
+  </aside>
+</div>
+
+<div class="section-head"><div><h3>The 12-week roadmap</h3><p>Move up when the current level feels controlled—not just because the calendar says so.</p></div></div>
+<div class="week-plan">
+  <div class="phase" id="phase1"><div class="num">WEEKS 01–04</div><h4>01 · Adapt</h4><p>Learn form, make training a habit, and finish every set with energy left. Begin with 1–2 sets.</p></div>
+  <div class="phase" id="phase2"><div class="num">WEEKS 05–08</div><h4>02 · Strengthen</h4><p>Build toward 2–3 sets. Increase reps first; make a movement harder only when form stays solid.</p></div>
+  <div class="phase" id="phase3"><div class="num">WEEKS 09–12</div><h4>03 · Progress</h4><p>Work toward 3 controlled sets and harder variations. Add a safe pulling option if possible.</p></div>
+</div>
+<section class="card" style="margin-top:16px">
+  <h3>Your weekly reflection</h3><div class="sub">Record your body weight if you want, and celebrate consistency—not just numbers.</div>
+  <div class="weight-row"><input type="number" id="weightInput" min="1" max="300" step="0.1" placeholder="Weight (kg), optional"><button id="saveWeight">Save</button></div>
+  <div class="sub" id="weightSaved" style="margin-top:8px">Your check-ins stay in this browser on this device.</div>
+</section>
+<div class="footer">Made for your first 12 weeks. Your data is saved locally in this browser; clearing browser data may erase it.<br>Stop if you experience sharp pain, chest pain, dizziness, or unusual breathlessness.</div>
+</div>
+<div class="toast" id="toast">Saved ✓</div>
+<div class="storage-alert" id="storageAlert" role="alert"></div>
+<div class="modal-backdrop" id="importModal" role="dialog" aria-modal="true" aria-labelledby="importTitle"><div class="modal"><h2 id="importTitle">Review backup</h2><p id="importSummary"></p><div class="modal-summary" id="importDetails"></div><label for="importMode">How should this backup be applied?</label><p><select id="importMode"><option value="merge">Merge with this browser (keep existing entries; backup wins for matching entries)</option><option value="replace">Replace this browser's tracker data</option></select></p><p id="replaceWarning" hidden>Before replacing, the app will download a backup of the current browser data. Keep that file until you confirm the restore worked.</p><div class="modal-actions"><button class="secondary" id="cancelImport">Cancel</button><button class="primary" id="confirmImport">Apply backup</button></div></div></div>
+<script>
+const days=[
+ {name:"Mon",label:"Monday",type:"Workout A",kind:"train",subtitle:"Push · legs · core",exercises:[
+  ["Incline push-ups","Chest, shoulders and triceps","Use a wall or sturdy counter; keep your body in one line.","6–10 reps","2 sets"],
+  ["Chair squats","Quads and glutes","Sit back to a sturdy chair and stand up under control.","8–12 reps","2 sets"],
+  ["Glute bridges","Glutes and hips","Lift hips without over-arching your lower back.","10–12 reps","2 sets"],
+  ["Bird dogs","Core stability","Extend opposite arm and leg; keep hips steady.","6 / side","2 sets"]
+ ]},
+ {name:"Tue",label:"Tuesday",type:"Active recovery",kind:"rest",subtitle:"Easy movement · 10–15 min",exercises:[
+  ["Easy walk","Gentle activity","Walk at a comfortable pace; you should be able to talk easily.","10–15 min","1 session"],
+  ["Gentle mobility","Comfortable range of motion","Move shoulders, ankles and hips gently. No painful stretching.","3–5 min","1 round"]
+ ]},
+ {name:"Wed",label:"Wednesday",type:"Workout B",kind:"train",subtitle:"Legs · shoulders · core",exercises:[
+  ["Calf raises","Calves and ankles","Hold a wall lightly if needed; rise and lower slowly.","12–15 reps","2 sets"],
+  ["Wall push-ups","Chest and shoulders","If easy, use your current incline push-up variation instead.","6–10 reps","2 sets"],
+  ["Supported reverse lunges","Legs and balance","Hold a stable support; use a small, pain-free step back.","5–8 / side","2 sets"],
+  ["Dead bugs","Deep core stability","Keep your lower back comfortably against the floor.","6 / side","2 sets"]
+ ]},
+ {name:"Thu",label:"Thursday",type:"Active recovery",kind:"rest",subtitle:"Easy walk · mobility",exercises:[
+  ["Easy walk","Gentle activity","Keep the pace comfortable; build the habit, not fatigue.","10–15 min","1 session"],
+  ["Gentle mobility","Comfortable range of motion","Move slowly and stay within a pain-free range.","3–5 min","1 round"]
+ ]},
+ {name:"Fri",label:"Friday",type:"Workout A / B",kind:"train",subtitle:"Alternate A and B each week",exercises:[]},
+ {name:"Sat",label:"Saturday",type:"Optional movement",kind:"rest",subtitle:"Keep it easy",exercises:[
+  ["Easy walk or play","General activity","Optional. Rest fully if tired or sore.","10–20 min","1 session"]
+ ]},
+ {name:"Sun",label:"Sunday",type:"Rest day",kind:"rest",subtitle:"Recover and reset",exercises:[
+  ["Rest and reset","Recovery","No workout required. Prepare your space for the next week.","Rest","—"]
+ ]}
+];
+const quotes=[
+ ["You don't need motivation every day. You need a <span>small promise</span> you can keep.","Progress over perfection."],
+ ["The first win is not a push-up. It's <span>showing up</span>.","Start where you are."],
+ ["A lighter workout done consistently beats a perfect plan you avoid.","Consistency builds confidence."],
+ ["You are not behind. You are <span>building your base</span>.","Your pace is your pace."],
+ ["One clean rep is proof that you are getting stronger.","Own the movement."],
+ ["Rest is part of training. <span>Recovery is productive</span>.","Train smart."],
+ ["Do the session you can do today—not the session you wish you could do.","Small steps compound."]
+];
+const KEY="calisthenicsQuestV1", BACKUP_FORMAT="calisthenics-quest-backup", BACKUP_VERSION=1;
+let storageBlocked=false, pendingImport=null;
+let state=load(),week=1,dayIndex=0;
+function blank(){return {checks:{},completed:{},habits:{},notes:{},weights:{}}}
+function validState(s){if(!s||typeof s!=="object"||Array.isArray(s))return false;for(const k of ["checks","completed","habits","notes","weights"])if(!s[k]||typeof s[k]!=="object"||Array.isArray(s[k]))return false;for(const [k,v] of Object.entries(s.checks)){if(!/^([1-9]|1[0-2])-[0-6]$/.test(k)||!Array.isArray(v)||v.some(n=>!Number.isInteger(n)||n<0||n>9))return false}for(const [k,v] of Object.entries(s.completed))if(!/^([1-9]|1[0-2])-[0-6]$/.test(k)||typeof v!=="boolean")return false;for(const [k,v] of Object.entries(s.notes))if(!/^([1-9]|1[0-2])-[0-6]$/.test(k)||typeof v!=="string"||v.length>20000)return false;for(const [k,v] of Object.entries(s.habits)){if(!/^([1-9]|1[0-2])-[0-6]$/.test(k)||!v||typeof v!=="object"||Array.isArray(v)||Object.values(v).some(x=>typeof x!=="boolean"))return false}for(const [k,v] of Object.entries(s.weights))if(!/^([1-9]|1[0-2])$/.test(k)||typeof v!=="number"||!Number.isFinite(v)||v<1||v>300)return false;return true}
+function showStorageError(msg){const el=document.getElementById("storageAlert");if(el){el.textContent=msg;el.classList.add("show")}storageBlocked=true}
+function load(){try{const raw=localStorage.getItem(KEY);if(raw===null)return blank();const parsed=JSON.parse(raw);if(!validState(parsed)){showStorageError("Saved tracker data is malformed. Saving has been paused to protect it. Export or copy this browser's site data before continuing.");return blank()}return parsed}catch(e){showStorageError("This browser could not read saved tracker data. Saving is paused to protect it. Check browser storage permissions and keep a backup before continuing.");return blank()}}
+function save(){if(storageBlocked){toast("Saving paused to protect existing data");return false}try{if(!validState(state))throw new Error("Tracker data failed validation");localStorage.setItem(KEY,JSON.stringify(state));renderStats();return true}catch(e){showStorageError("Could not save tracker data. Your current page may still show changes, but they are not safely stored. Export a backup and check available browser storage.");toast("Save failed — data not written");return false}}
+function key(w,d){return `${w}-${d}`}
+function currentWeekData(w=week){return state.checks[key(w,dayIndex)]||[]}
+function phase(w){return w<=4?1:w<=8?2:3}
+function getExercises(d,w){
+ const phase = w<=2?1:w<=4?2:w<=6?3:w<=8?4:5;
+ const setCount = phase===1?1:phase===2?2:phase===3?2:phase===4?3:3;
+ const mk=(name,muscle,cue,reps,sets=setCount+" sets")=>[name,muscle,cue,reps,sets];
+ const A = {
+  1:[
+   mk("Wall / high-incline push-ups","Chest, shoulders and triceps","Use a wall or sturdy high counter. Keep your body in one line.","6–8 reps"),
+   mk("Chair squats","Quads and glutes","Sit back to a sturdy chair and stand up smoothly.","8–10 reps"),
+   mk("Glute bridges","Glutes and hips","Lift your hips without over-arching your lower back.","8–10 reps"),
+   mk("Bird dogs","Core stability","Extend opposite arm and leg; keep your hips steady.","5 / side")
+  ],
+  2:[
+   mk("Incline push-ups","Chest, shoulders and triceps","Use a sturdy counter. Lower under control; keep your body straight.","8–10 reps"),
+   mk("Chair squats","Quads and glutes","Use the chair as a depth target; stand without bouncing.","10–12 reps"),
+   mk("Glute bridges with 2-sec hold","Glutes and hips","Pause at the top while keeping ribs down.","10–12 reps"),
+   mk("Bird dogs with slow reach","Core stability","Pause for 2 seconds with opposite arm and leg extended.","6 / side")
+  ],
+  3:[
+   mk("Lower-incline push-ups","Chest, shoulders and triceps","Use a lower, stable surface only if your form stays clean.","6–10 reps"),
+   mk("Bodyweight squats","Quads and glutes","Lower for 3 seconds; stand up smoothly.","10–12 reps"),
+   mk("Glute bridges with 3-sec hold","Glutes and hips","Pause at the top and lower slowly.","10–12 reps"),
+   mk("Dead bugs","Deep core stability","Move slowly and keep your lower back comfortably supported.","6–8 / side")
+  ],
+  4:[
+   mk("Incline push-ups (lower surface if ready)","Chest, shoulders and triceps","Choose a level that allows controlled reps with 2–4 reps left in reserve.","8–12 reps"),
+   mk("Tempo squats","Quads and glutes","Lower for 3 seconds, pause briefly, then stand.","10–15 reps"),
+   mk("Glute bridge march","Glutes and core","Keep hips level as you lift one foot at a time; use regular bridges if difficult.","6–8 / side"),
+   mk("Knee plank","Core stability","Keep a straight line from shoulders to knees; breathe normally.","15–25 sec")
+  ],
+  5:[
+   mk("Push-up progression","Chest, shoulders and triceps","Choose wall, incline or knee push-ups; use only a version with clean form.","6–12 reps"),
+   mk("Tempo squats or supported split squats","Legs and glutes","Choose squats or shallow supported split squats; keep every rep pain-free.","8–12 reps"),
+   mk("Single-leg glute bridge (or regular bridge)","Glutes and hips","Try single-leg only if hips stay level; otherwise use regular bridges.","6–10 / side"),
+   mk("Knee plank or dead bugs","Core stability","Choose the variation you can control without holding your breath.","20–30 sec / 8 per side")
+  ]
+ };
+ const B = {
+  1:[
+   mk("Wall push-ups","Chest and shoulders","Keep your body straight and move with control.","6–8 reps"),
+   mk("Supported reverse lunges (shallow)","Legs and balance","Hold a stable support and take a small, pain-free step back.","5 / side"),
+   mk("Calf raises","Calves and ankles","Hold a wall lightly if needed; rise and lower slowly.","10–12 reps"),
+   mk("Dead bugs","Deep core stability","Keep your lower back comfortably against the floor.","5 / side")
+  ],
+  2:[
+   mk("Incline push-ups","Chest and shoulders","Use your current safe incline; avoid shrugging your shoulders.","8–10 reps"),
+   mk("Supported reverse lunges","Legs and balance","Use a stable support and gradually increase comfortable range.","6 / side"),
+   mk("Calf raises with slow lowering","Calves and ankles","Rise normally, lower for 3 seconds.","12–15 reps"),
+   mk("Dead bugs","Deep core stability","Move slowly and keep your torso steady.","6 / side")
+  ],
+  3:[
+   mk("Incline push-ups","Chest and shoulders","Use a slightly lower surface only if you maintain full-body control.","8–10 reps"),
+   mk("Supported split squats","Quads, glutes and balance","Hold a support; use a shallow range and stay pain-free.","6–8 / side"),
+   mk("Calf raises with pause","Calves and ankles","Pause briefly at the top and lower slowly.","12–15 reps"),
+   mk("Dead bugs with slower lowering","Deep core stability","Take 3 seconds to extend each leg.","8 / side")
+  ],
+  4:[
+   mk("Pike lean or incline push-ups","Shoulders and chest","Try a gentle pike lean only if comfortable; otherwise continue incline push-ups.","6–8 reps"),
+   mk("Supported split squats","Quads, glutes and balance","Keep your front foot planted and use support for balance.","8 / side"),
+   mk("Single-leg calf raises (or both legs)","Calves and ankles","Use a wall for balance; switch back to both legs if unstable.","8–10 / side"),
+   mk("Knee side plank","Obliques and core","Keep hips lifted without twisting; use a short hold.","10–20 sec / side")
+  ],
+  5:[
+   mk("Pike push-up progression or incline push-ups","Shoulders and chest","Only try pike push-ups if comfortable and controlled; incline push-ups are always valid.","6–10 reps"),
+   mk("Supported split squats","Legs and balance","Use a controlled, pain-free range; support is encouraged.","8–10 / side"),
+   mk("Single-leg calf raises (or both legs)","Calves and ankles","Hold a wall lightly and lower with control.","10–12 / side"),
+   mk("Knee side plank or dead bugs","Core stability","Choose the variation that keeps your form solid.","15–25 sec / side")
+  ]
+ };
+ if(d===4)d=(w%2===1?0:2); // Friday alternates Workout A and B by week
+ if(d===0)return A[phase];
+ if(d===2)return B[phase];
+ if(d===1||d===3||d===5||d===6)return days[d].exercises;
+ return A[phase];
+}
+function render(){
+ document.getElementById("weekSelect").value=week;
+ document.getElementById("heroWeek").textContent=String(week).padStart(2,"0");
+ document.getElementById("phaseLabel").textContent=phase(week)===1?"PHASE 1 · ADAPT":phase(week)===2?"PHASE 2 · STRENGTHEN":"PHASE 3 · PROGRESS";
+ document.querySelectorAll(".phase").forEach((p,i)=>p.classList.toggle("current",i+1===phase(week)));
+ document.getElementById("weekMessage").textContent=week<=2?"Start easy. Build the habit.":week<=4?"Own the basics.":"One good rep at a time.";
+ renderDays();renderWorkout();renderStats();renderHabits();
+ document.getElementById("notes").value=state.notes[key(week,dayIndex)]||"";
+ document.getElementById("weightSaved").textContent=state.weights[week]?`Week ${week}: ${state.weights[week]} kg recorded.`:"Your check-ins stay in this browser on this device.";
+}
+function renderDays(){
+ const strip=document.getElementById("weekStrip");strip.innerHTML="";
+ days.forEach((d,i)=>{
+  const el=document.createElement("button");el.className="day"+(i===dayIndex?" active":"")+(state.completed[key(week,i)]?" done":"")+(d.kind==="rest"?" rest":"");
+  const type=state.completed[key(week,i)]?"✓ Done":d.kind==="train"?"Train":i===6?"Rest":"Easy";
+  el.innerHTML=`<div class="dayname">${d.name}</div><div class="daytype">${type}</div>`;
+  el.onclick=()=>{dayIndex=i;render()};strip.appendChild(el);
+ });
+}
+function renderWorkout(){
+ const d=days[dayIndex], exs=getExercises(dayIndex,week), k=key(week,dayIndex);
+ document.getElementById("workoutTitle").textContent=d.label+" · "+(dayIndex===4?d.type:d.type);
+ document.getElementById("workoutSubtitle").textContent=(dayIndex===4?(week%2===1?"Workout A · alternating Friday session":"Workout B · alternating Friday session"):d.subtitle)+(d.kind==="train"?" · Rest 60–120 sec between sets":"");
+ document.getElementById("workoutTag").textContent=d.kind==="train"?"TRAINING":dayIndex===6?"REST":"RECOVERY";
+ const list=document.getElementById("exerciseList");list.innerHTML="";
+ exs.forEach((ex,i)=>{
+  let dose={reps:ex[3]||"10–15 min",sets:ex[4]||"1 session"};
+  if(d.kind!=="train"&&dayIndex!==4){dose={reps:ex[3]||"10–15 min",sets:ex[4]||"1 session"}}
+  const checked=(state.checks[k]||[]).includes(i);
+  const row=document.createElement("label");row.className="exercise"+(checked?" checked":"");
+  row.innerHTML=`<input type="checkbox" ${checked?"checked":""} aria-label="Complete ${ex[0]}"><div><div class="ex-name">${ex[0]}</div><div class="ex-detail">${ex[1]}</div><div class="ex-note">${ex[2]}</div></div><div class="dose"><strong>${dose.reps}</strong><span>${dose.sets}</span></div>`;
+  row.querySelector("input").onchange=e=>{let arr=state.checks[k]||[];arr=e.target.checked?[...new Set([...arr,i])]:arr.filter(x=>x!==i);state.checks[k]=arr;save();renderWorkout();renderDays();toast(e.target.checked?"Nice work. Logged ✓":"Check-off updated");};
+  list.appendChild(row);
+ });
+ const isDone=!!state.completed[k];
+ document.getElementById("completeSession").textContent=isDone?"Session completed ✓":"Complete session ✓";
+ document.getElementById("completeSession").className=isDone?"secondary":"primary";
+ document.getElementById("sessionStatus").textContent=isDone?"You showed up. Be proud of that.":d.kind==="train"?"Finish the planned movements, then mark the session complete.":"Keep recovery easy; rest counts too.";
+ document.getElementById("completeSession").onclick=()=>{
+  state.completed[k]=!state.completed[k];save();renderDays();renderWorkout();
+  toast(state.completed[k]?"Session logged. You showed up!":"Session marked incomplete");
+ };
+ const q=quotes[(week+dayIndex-2+quotes.length*2)%quotes.length];document.getElementById("quote").innerHTML=q[0];document.getElementById("quoteFoot").textContent=q[1];
+}
+function renderHabits(){
+ document.querySelectorAll("[data-habit]").forEach(input=>{input.checked=!!(state.habits[key(week,dayIndex)]||{})[input.dataset.habit];input.onchange=()=>{state.habits[key(week,dayIndex)]={...(state.habits[key(week,dayIndex)]||{}),[input.dataset.habit]:input.checked};save();}});
+ document.getElementById("notes").oninput=e=>{state.notes[key(week,dayIndex)]=e.target.value;save()};
+}
+function renderStats(){
+ let sessions=Object.values(state.completed).filter(Boolean).length;
+ let checks=Object.values(state.checks).reduce((a,v)=>a+(v||[]).length,0);
+ let weekSessions=days.reduce((a,d,i)=>a+(d.kind==="train"&&state.completed[key(week,i)]?1:0),0);
+ let allTraining=36, doneTraining=Object.keys(state.completed).filter(k=>state.completed[k]&&days[Number(k.split("-")[1])]?.kind==="train").length;
+ document.getElementById("totalSessions").textContent=sessions;
+ document.getElementById("totalExercises").textContent=checks;
+ document.getElementById("weekCount").textContent=`${weekSessions} of 3 sessions`;
+ document.getElementById("weekBar").style.width=Math.min(100,weekSessions/3*100)+"%";
+ document.getElementById("streak").textContent=weekSessions===3?"Target hit ✓":"One session at a time";
+ document.getElementById("overallPct").textContent=Math.round(doneTraining/allTraining*100)+"% complete";
+ document.getElementById("overallBar").style.width=Math.min(100,doneTraining/allTraining*100)+"%";
+ document.getElementById("daysDone").textContent=`${doneTraining} of 36 training sessions`;
+}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(window._toastTimer);window._toastTimer=setTimeout(()=>el.classList.remove("show"),1700)}
+const sel=document.getElementById("weekSelect");for(let i=1;i<=12;i++){let o=document.createElement("option");o.value=i;o.textContent=`Week ${String(i).padStart(2,"0")}`;sel.appendChild(o)}
+sel.onchange=()=>{week=+sel.value;render()};
+document.getElementById("prevWeek").onclick=()=>{week=Math.max(1,week-1);render()};
+document.getElementById("nextWeek").onclick=()=>{week=Math.min(12,week+1);render()};
+document.getElementById("saveWeight").onclick=()=>{let v=document.getElementById("weightInput").value;if(!v||+v<=0){toast("Enter a valid weight (optional)");return}state.weights[week]=Number(v);save();render();toast("Weekly check-in saved ✓")};
+function downloadBackup(data=state,suffix=""){const payload={format:BACKUP_FORMAT,version:BACKUP_VERSION,exportedAt:new Date().toISOString(),app:"Calisthenics Quest",data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`calisthenics-quest-backup${suffix}-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function parseBackup(raw){let obj;try{obj=JSON.parse(raw)}catch(e){throw new Error("This file is not valid JSON.")}if(obj&&obj.format===BACKUP_FORMAT){if(obj.version!==BACKUP_VERSION)throw new Error(`Backup version ${obj.version} is not supported. This app supports version ${BACKUP_VERSION}.`);if(!validState(obj.data))throw new Error("Backup contents failed validation. No data was changed.");return {data:obj.data,exportedAt:obj.exportedAt||"Unknown date",legacy:false}}if(obj&&obj.localStorage&&typeof obj.localStorage[KEY]==="string"){try{obj=JSON.parse(obj.localStorage[KEY])}catch(e){throw new Error("The browser storage backup contains invalid tracker data.")}}if(validState(obj))return {data:obj,exportedAt:"Legacy tracker backup",legacy:true};throw new Error("Unrecognized backup format or incomplete tracker data. No data was changed.")}
+function counts(s){return {days:Object.keys(s.completed).filter(k=>s.completed[k]).length,checks:Object.values(s.checks).reduce((n,a)=>n+a.length,0),notes:Object.keys(s.notes).filter(k=>s.notes[k]).length,weights:Object.keys(s.weights).length,habits:Object.values(s.habits).reduce((n,h)=>n+Object.values(h).filter(Boolean).length,0)}}
+function mergeData(current,incoming){const out=JSON.parse(JSON.stringify(current));for(const field of ["completed","notes","weights"])Object.assign(out[field],incoming[field]);for(const [k,v] of Object.entries(incoming.checks))out.checks[k]=[...new Set([...(out.checks[k]||[]),...v])].sort((a,b)=>a-b);for(const [k,v] of Object.entries(incoming.habits))out.habits[k]={...(out.habits[k]||{}),...v};return out}
+document.getElementById("exportBackup").onclick=()=>{try{downloadBackup();toast("Backup downloaded")}catch(e){toast("Could not create backup")}};
+const fileInput=document.getElementById("backupFile"),modal=document.getElementById("importModal");document.getElementById("importBackup").onclick=()=>fileInput.click();fileInput.onchange=async()=>{const f=fileInput.files?.[0];fileInput.value="";if(!f)return;try{if(f.size>5*1024*1024)throw new Error("Backup is larger than 5 MB.");pendingImport=parseBackup(await f.text());const c=counts(pendingImport.data);document.getElementById("importSummary").textContent=`${f.name} · ${pendingImport.exportedAt}${pendingImport.legacy?" · legacy format":""}`;document.getElementById("importDetails").innerHTML=`<strong>Backup contains</strong><ul><li>${c.days} completed days · ${c.checks} exercise check-offs</li><li>${c.habits} daily habit check-offs · ${c.notes} notes</li><li>${c.weights} weekly weight entries</li></ul>`;modal.classList.add("show")}catch(e){toast(e.message||"Could not read backup")}};
+document.getElementById("importMode").onchange=e=>{document.getElementById("replaceWarning").hidden=e.target.value!=="replace"};document.getElementById("cancelImport").onclick=()=>{modal.classList.remove("show");pendingImport=null};
+document.getElementById("confirmImport").onclick=()=>{if(!pendingImport)return;if(storageBlocked){toast("Import paused because saved data could not be read safely");return}const mode=document.getElementById("importMode").value;try{if(mode==="replace")downloadBackup(state,"-before-restore");const next=mode==="replace"?pendingImport.data:mergeData(state,pendingImport.data);if(!validState(next))throw new Error("Combined data failed validation.");localStorage.setItem(KEY,JSON.stringify(next));state=next;storageBlocked=false;document.getElementById("storageAlert").classList.remove("show");modal.classList.remove("show");pendingImport=null;week=1;dayIndex=0;render();toast(mode==="replace"?"Backup restored":"Backup merged")}catch(e){toast("Restore failed: "+(e.message||"browser storage unavailable"))}};
+document.getElementById("resetBtn").onclick=()=>{if(confirm("Reset all workout check-offs, notes and weekly weight entries? This cannot be undone.")){const previous=state;state=blank();if(save()){week=1;dayIndex=0;render();toast("Tracker reset")}else state=previous}};
+render();
+</script>
+</body>
+</html>
