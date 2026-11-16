@@ -1,66 +1,42 @@
 # Calisthenics Quest
 
-A single-file, static 12-week workout tracker. Workout data stays in the browser's local storage; it is not uploaded to GitHub. The existing workout progression, day-specific logic, weekly check-offs, daily habits, notes, optional weekly weight entry, and visual styling are retained.
+A static 12-week workout tracker. It retains the existing progression, day-specific workouts, sets and reps, weekly check-offs, habits, notes, optional weight logs, and visual styling. Tracker data is saved in browser localStorage and is not included in the repository.
 
-## Protect and migrate your Edge progress first
+## Protect existing Edge progress
 
-Do this **before replacing, moving, or renaming the old tracker**:
-
-1. In Microsoft Edge, open the old working tracker from its existing location. Do not clear Edge site data or delete the old file.
-2. Press **F12**, open **Console**, and run the snippet below. If Edge asks you to allow pasting, follow its displayed safety prompt. It downloads the current page's local storage as JSON.
-3. Keep the downloaded `calisthenics-quest-edge-backup.json` in a safe place. The file may contain personal workout notes and weight entries.
-4. Open the upgraded tracker in the same browser and use **Import backup**. Review the backup preview and choose **Merge** or **Replace**. Merge combines check-offs and keeps both browsers' entries; where notes, weights, habits, or completion flags overlap, the imported backup takes precedence. Replace downloads a pre-restore backup before applying the imported data.
-5. Confirm the imported weeks, notes, and weight entry in the tracker. Keep both backup files until you have confirmed the migration.
+Before replacing or moving your old tracker, open it in Edge and export its localStorage. In the old tracker, press F12, open Console, and run:
 
 ```js
-const backup = {
-  origin: location.origin,
-  exportedAt: new Date().toISOString(),
-  localStorage: Object.fromEntries(
-    Array.from({ length: localStorage.length }, (_, i) => {
-      const key = localStorage.key(i);
-      return [key, localStorage.getItem(key)];
-    })
-  )
-};
+const backup = { origin: location.origin, exportedAt: new Date().toISOString(), localStorage: Object.fromEntries(Array.from({length: localStorage.length}, (_, i) => { const key = localStorage.key(i); return [key, localStorage.getItem(key)]; })) };
 const link = document.createElement("a");
-link.href = URL.createObjectURL(
-  new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" })
-);
+link.href = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], {type: "application/json"}));
 link.download = "calisthenics-quest-edge-backup.json";
 link.click();
 URL.revokeObjectURL(link.href);
 ```
 
-Browser local storage is separated by browser profile and site origin. The old `file://` copy, a local development server, and a GitHub Pages URL may each have separate storage. Use JSON export/import to move data between them.
+Keep that JSON somewhere safe. Then open the upgraded tracker in Edge, choose **Import backup**, review its preview, and select **Merge** or **Replace**. Keep both backups until you verify the restored progress. Browser profiles and origins (old file, local file, Pages URL) keep separate localStorage. Never clear Edge site data or delete the old tracker until migration is verified.
 
-## Backups and data safety
+## Backup behavior
 
-- **Export backup** saves a versioned JSON file containing all tracker data. Export periodically and before browser changes.
-- **Import backup** validates the format, version, field types, week/day keys, and data limits before showing a preview. Invalid files do not change tracker data.
-- **Merge** keeps existing and imported check-offs; the imported backup wins for matching notes, weights, habits, and session completion values.
-- **Replace** asks for a separate confirmation and downloads the current data first.
-- Local storage errors are shown in the page. If saved data cannot be read, automatic writes are paused to avoid silently replacing it.
-- Keep JSON backups private. They can contain notes and body-weight records. Do not commit them to GitHub.
-
-The import supports both this app's versioned backup and the Edge local-storage export snippet above. The app preserves the original local-storage key (`calisthenicsQuestV1`) so an upgraded copy opened at the same origin can continue using existing saved data.
+- Export produces a versioned JSON backup.
+- Import validates format, version, fields, week/day keys, and limits before preview; invalid files do not change data. It also accepts the Edge localStorage export above.
+- Merge combines check-offs and lets the imported backup win for overlapping notes, weights, habits, and completion flags. Replace confirms first and downloads a backup of current data.
+- The original `calisthenicsQuestV1` storage key is preserved. Storage errors appear in the app; unsafe automatic writes pause if saved data cannot be read.
+- Backups can contain private notes and body-weight records. Do not commit JSON backups.
 
 ## Run locally
 
-Open `index.html` in a current browser. For local development, a simple static server also works. Each origin has its own local storage, so import the Edge backup into whichever browser/origin you will use.
+Open `index.html` in Edge or another modern browser. Each browser origin has separate storage; import your Edge backup into the copy you will use.
 
-## Prepare a private GitHub repository
+## GitHub repository
 
-1. The private repository has been created: [venkateswaran0509/personal-development](https://github.com/venkateswaran0509/personal-development). GitHub converts the requested space to a hyphen in the repository URL.
-2. Add `index.html`, `README.md`, and `.gitignore`. Do not add personal JSON backups.
-3. Commit and push only after reviewing the files and confirming the Edge backup is safely stored. The repository is currently empty; these project files and your workout data have not been uploaded, committed, or published.
+The project files (`index.html`, `README.md`, `.gitignore`) are uploaded to the private repository [venkateswaran0509/personal-development](https://github.com/venkateswaran0509/personal-development), on `main`. Commit `958a53f` added the tracker. No personal backup JSON was uploaded. The repository remains private; GitHub Pages is not enabled.
 
-### GitHub Pages visibility
+## GitHub Pages
 
-GitHub Pages availability depends on the plan: GitHub Free supports Pages for public repositories; paid plans such as Pro support Pages from private repositories. A private source repository does **not** automatically make the website private. Pages sites are public by default, including sites built from private repositories, unless the organization has the Enterprise Cloud private-site access feature and configures it. Personal workout data remains in browser local storage and is not included in the published files, but anyone with access to a public site can use their own browser copy.
+Pages access depends on plan and repository settings. A private source repository does not make a Pages website private: Pages sites are public by default. Private Pages access control requires an organization using GitHub Enterprise Cloud. Publishing may expose the app source; personal tracker data remains in each browser and is not included in the files. To enable Pages, use **Repository Settings > Pages**, select **Deploy from a branch**, choose `main` and `/(root)`, then save. Review visibility before sharing. See [GitHub Pages plan availability](https://docs.github.com/en/pages/getting-started-with-github-pages), [private Pages sites](https://docs.github.com/en/enterprise-cloud%40latest/pages/getting-started-with-github-pages/about-privately-published-github-pages-sites), and [changing Pages visibility](https://docs.github.com/en/enterprise-cloud%40latest/pages/getting-started-with-github-pages/changing-the-visibility-of-your-github-pages-site).
 
-To publish, after the reviewed files are pushed, open **Repository → Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, select the intended branch (usually `main`) and `/(root)`, then save. Review the site's visibility setting before sharing its URL. Publishing a public site may expose the app source even while the repository remains private. For private site access control, GitHub's documentation currently requires an organization on GitHub Enterprise Cloud. See [GitHub Pages plan availability](https://docs.github.com/en/pages/getting-started-with-github-pages), [private Pages sites](https://docs.github.com/en/enterprise-cloud%40latest/pages/getting-started-with-github-pages/about-privately-published-github-pages-sites), and [changing Pages visibility](https://docs.github.com/en/enterprise-cloud%40latest/pages/getting-started-with-github-pages/changing-the-visibility-of-your-github-pages-site).
+## Exercise references
 
-## Existing exercise references
-
-The located tracker file contains text form cues for each exercise but no exercise image files or image references. This copy keeps the available cues and layout intact; it does not invent or substitute illustrations.
+The source includes text cues but no exercise image files or image references; the available cues and layout are retained.
